@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231F6F6B'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-style='italic' font-size='20' fill='%23F6F1E7' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<title>Kit Fiore</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="color-scheme" content="only light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,600&display=swap">
+<style>
+/* Layout: a delivery binder — sticky section tabs, each section a shelf of pieces with its own download, one bulk download per section */
+:root{
+  --bg:#F6F1E7; --surface:#FFFDF8; --ink:#1B2422; --muted:#57625F; --line:#DDD5C4; --soft:#ECE5D6;
+  --teal:#1F6F6B; --on-teal:#F6F1E7; --tomato:#B8401F; --on-tomato:#FFFFFF;
+  --check-a:#1F6F6B; --check-b:#F6F1E7;
+  color-scheme:light;
+  --display:'Fraunces', Georgia, serif; --body:'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:0 90px}
+.check{height:16px;background:repeating-conic-gradient(var(--check-a) 0 25%,var(--check-b) 0 50%) 0 0/16px 16px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:2px;border-radius:6px}
+.hero{padding-block:44px 30px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:end}
+.hero h1{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(46px,7vw,84px);line-height:.92;color:var(--teal);letter-spacing:-.02em}
+.hero p{margin:12px 0 0;color:var(--muted);max-width:52ch}
+.bulk{background:var(--surface);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.bulk h2{font-size:15px;font-weight:800}
+.bulk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.zip{border:0;font:inherit;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--soft);border-radius:12px;padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;min-height:44px}
+.zip small{color:var(--muted);font-weight:600}
+.zip:hover{background:var(--teal);color:var(--on-teal)}.zip:hover small{color:var(--on-teal)}
+@media (max-width:820px){.hero{grid-template-columns:1fr;gap:22px;padding-block:28px 20px}}
+@media (max-width:420px){.bulk-grid{grid-template-columns:1fr}}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;padding-block:12px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:6;background:var(--bg)}
+.nav a{flex:0 0 auto;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:800;font-size:14px;text-decoration:none}
+.nav a:hover{border-color:var(--teal)}
+
+section.sec{padding-top:44px;scroll-margin-top:70px;display:flex;flex-direction:column;gap:20px}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.sec-h h2{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(36px,5vw,54px);line-height:.95}
+.sec-h p{margin:6px 0 0;color:var(--muted);max-width:60ch;font-size:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;font:inherit;font-weight:800;font-size:14px;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
+.btn-teal{background:var(--teal);color:var(--on-teal)}
+.btn-line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.btn-line:hover{box-shadow:inset 0 0 0 2px var(--teal);color:var(--teal)}
+.ico{width:16px;height:16px;flex-shrink:0}
+
+.feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--surface);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--soft)}
+.card.story img{aspect-ratio:9/16}
+.card-b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-b h3{font-family:var(--display);font-style:italic;font-weight:600;font-size:21px;line-height:1.1}
+.kind{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tomato)}
+.card-b .row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+details.cap summary{cursor:pointer;font-size:13px;font-weight:800;color:var(--teal)}
+details.cap p{white-space:pre-line;font-size:14px;color:var(--muted);margin:8px 0}
+@media (max-width:860px){.feed{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.feed{grid-template-columns:1fr}}
+
+.car{background:var(--surface);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.car-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.car-h h3{font-family:var(--display);font-style:italic;font-weight:600;font-size:26px}
+.car-h span{color:var(--muted);font-size:14px;font-weight:600}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px}
+.slide{display:flex;flex-direction:column;gap:6px;min-width:0}
+.slide img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;background:var(--soft)}
+.slide a{font-size:13px;font-weight:800;color:var(--teal);text-decoration:none;display:inline-flex;gap:6px;align-items:center;min-height:32px}
+.slide.story img{aspect-ratio:9/16}
+.cover-row{display:flex;align-items:center;gap:14px}
+.cover-row img{width:64px;height:64px;border-radius:50%;object-fit:cover}
+
+.reels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.reel{background:var(--surface);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.reel video{width:100%;aspect-ratio:9/16;background:#000;display:block}
+@media (max-width:900px){.reels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.texts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.text{background:var(--surface);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.text h3{font-size:15px;font-weight:800}
+.text pre{margin:0;white-space:pre-wrap;font-family:var(--body);font-size:15px;background:var(--soft);border-radius:12px;padding:12px 14px}
+@media (max-width:760px){.texts{grid-template-columns:1fr}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700;z-index:9;max-width:calc(100% - 32px)}
+</style>
+</head>
+<body>
+
+
+<div class="check" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">@viandas.fiore · entrega</div>
+      <h1>Kit de contenido Fiore</h1>
+      <p>Todo el contenido de Instagram listo para publicar: posteos, carruseles completos, reels con música, historias, destacadas y los textos. Descargá cada pieza o una sección entera.</p>
+    </div>
+    <div class="bulk" aria-label="Descargas por sección">
+      <h2>Descargar por sección (ZIP)</h2>
+      <div class="bulk-grid" id="bulk"></div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Secciones">
+    <a href="#feed">Feed</a><a href="#carruseles">Carruseles</a><a href="#reels">Reels</a><a href="#historias">Historias</a><a href="#destacadas">Destacadas</a><a href="#textos">Textos</a><a href="#marca">Marca</a>
+  </nav>
+
+  <section class="sec" id="feed" aria-labelledby="h-feed">
+    <div class="sec-h"><div><h2 id="h-feed">Feed</h2><p>Los 12 posteos en el orden de la grilla. Los tres primeros se fijan en el perfil. En los carruseles, esta es la portada; las placas completas están en Carruseles.</p></div><button class="btn btn-teal" type="button" data-set="fiore-feed">Descargar feed</button></div>
+    <div class="feed" id="feed-grid"></div>
+  </section>
+
+  <section class="sec" id="carruseles" aria-labelledby="h-car">
+    <div class="sec-h"><div><h2 id="h-car">Carruseles</h2><p>Subilas en este orden. Formato 1080 × 1350.</p></div><button class="btn btn-teal" type="button" data-set="fiore-carruseles">Descargar todos</button></div>
+    <div id="car-list" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <section class="sec" id="reels" aria-labelledby="h-reels">
+    <div class="sec-h"><div><h2 id="h-reels">Reels</h2><p>1080 × 1920, con música original. Si preferís usar un audio en tendencia de Instagram, bajá la versión sin música.</p></div><button class="btn btn-teal" type="button" data-set="fiore-reels">Descargar reels</button></div>
+    <div class="reels" id="reel-grid"></div>
+  </section>
+
+  <section class="sec" id="historias" aria-labelledby="h-his">
+    <div class="sec-h"><div><h2 id="h-his">Historias</h2><p>Plantillas para el día a día. Los recuadros punteados indican dónde va el sticker de Instagram (enlace, encuesta o preguntas).</p></div><button class="btn btn-teal" type="button" data-set="fiore-historias">Descargar historias</button></div>
+    <div class="feed" id="his-grid"></div>
+  </section>
+
+  <section class="sec" id="destacadas" aria-labelledby="h-dest">
+    <div class="sec-h"><div><h2 id="h-dest">Destacadas</h2><p>Subí las historias de cada grupo y guardalas en su destacada con la portada correspondiente.</p></div><button class="btn btn-teal" type="button" data-set="fiore-destacadas">Descargar destacadas</button></div>
+    <div id="dest-list" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <section class="sec" id="textos" aria-labelledby="h-tx">
+    <div class="sec-h"><div><h2 id="h-tx">Textos</h2><p>Para copiar y pegar en el perfil.</p></div></div>
+    <div class="texts">
+      <div class="text"><h3>Nombre del perfil</h3><pre id="t-name">Viandas Fiore | Adrogué · zona sur</pre><button class="btn btn-line" data-copy="t-name" type="button">Copiar</button></div>
+      <div class="text"><h3>Bio</h3><pre id="t-bio">Viandas congeladas de chef, caseras.
+Del freezer al horno en 25–30 min
+Envío gratis en Adrogué · mié a vie
+Pedí acá ↓</pre><button class="btn btn-line" data-copy="t-bio" type="button">Copiar</button></div>
+      <div class="text"><h3>Hashtags (máximo 5 por posteo)</h3><pre id="t-hash">#adrogue #zonasur #viandascongeladas #viandasadrogue #comidacasera</pre><button class="btn btn-line" data-copy="t-hash" type="button">Copiar</button></div>
+      <div class="text"><h3>Ubicación y contacto</h3><pre id="t-loc">Ubicación en cada posteo: Adrogué, Buenos Aires
+WhatsApp: 11 2267-3157</pre><button class="btn btn-line" data-copy="t-loc" type="button">Copiar</button></div>
+    </div>
+  </section>
+
+  <section class="sec" id="marca" aria-labelledby="h-marca">
+    <div class="sec-h"><div><h2 id="h-marca">Marca</h2><p>Colores, tipografías y cómo se ve el perfil terminado.</p></div><button class="btn btn-teal" type="button" data-set="fiore-marca">Descargar marca</button></div>
+    <div class="feed" id="marca-grid"></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const DATA = {"feed": [{"id": "F01", "name": "Así funciona", "kind": "Carrusel · fijado", "file": "feed/01-asi-funciona.jpg", "caption": "Así de simple:\n1. Elegís de la carta (link en la bio).\n2. Pedís por WhatsApp, cualquier día.\n3. Te llega miércoles, jueves o viernes desde las 18 h. Del freezer al horno en 25–30 minutos.\nEnvío gratis en Adrogué.\n\nGuardalo para cuando no tengas ganas de cocinar.", "carousel": "C01"}, {"id": "F02", "name": "La carta", "kind": "Carrusel · fijado", "file": "feed/02-la-carta.jpg", "caption": "La carta de Fiore:\nBerenjenas a la parmesana $17.000\nPastel de papa a cuchillo $16.000\nLasaña de ragú $16.000\nWok de pollo teriyaki $16.000\nTagliolini con pollo y puerro $12.000\nPorciones de 500 g, congeladas, sin conservantes.\n\nGuardala para pedir el fin de semana.", "carousel": "C02"}, {"id": "F03", "name": "Quién cocina", "kind": "Carrusel · fijado", "file": "feed/03-quien-cocina.jpg", "caption": "Soy Renzo. Estudié en el IAG y cociné en Evelia, El Preferido de Palermo y La Alacena.\nHoy cocino viandas congeladas en Adrogué: 500 g, sin conservantes, del freezer al horno en 25 minutos.\nEnvío gratis en Adrogué. Pedí desde el link de la bio.", "carousel": "C03"}, {"id": "F04", "name": "Pastel de papa a cuchillo", "kind": "Portada de reel", "file": "feed/04-pastel-de-papa.jpg", "caption": "Pastel de papa con carne cortada a cuchillo. Se nota en cada bocado.\n$16.000 · 500 g · del freezer al horno en 25–30'.\n\nMandáselo al que dice que el pastel de papa de su vieja es el mejor.", "carousel": null}, {"id": "F05", "name": "Cómo calentar tu vianda", "kind": "Carrusel", "file": "feed/05-como-calentar.jpg", "caption": "Todo lo que necesitás saber:\nHorno: directo del freezer, 25–30 minutos.\nMicroondas: pasala a un plato, el aluminio no va.\nFreezer: hasta 3 meses.\nDescongelada: consumila dentro de los 3 días.\n\nGuardalo y mandáselo a quien siempre pregunta.", "carousel": "C05"}, {"id": "F06", "name": "Berenjenas a la parmesana", "kind": "Foto", "file": "feed/06-berenjenas.jpg", "caption": "La más pedida de Fiore. Berenjenas a la parmesana, $17.000.\n\nEtiquetá a quien se la regalarías.", "carousel": null}, {"id": "F07", "name": "Berenjenas al horno", "kind": "Portada de reel", "file": "feed/07-berenjenas-al-horno.jpg", "caption": "Berenjenas a la parmesana: berenjena al horno en capas, salsa, jamón y queso gratinado.\nEs la que más nos piden. $17.000 la porción de 500 g.\nLink en la bio para pedir.", "carousel": null}, {"id": "F08", "name": "Reseñas", "kind": "Carrusel (completar)", "file": "feed/08-resenas.jpg", "caption": "Lo que nos escriben después de probar Fiore. Gracias por confiar.\n\n¿Ya probaste? Etiquetanos.", "carousel": null}, {"id": "F09", "name": "Salsa, queso y albahaca", "kind": "Foto", "file": "feed/09-detalle.jpg", "caption": "Salsa, queso y albahaca fresca, antes de entrar al horno.\nLasaña de ragú, $16.000.", "carousel": null}, {"id": "F10", "name": "Lasaña de ragú", "kind": "Foto", "file": "feed/10-lasana.jpg", "caption": "Lasaña de ragú. Ragú, queso y albahaca fresca.\n$16.000 · 500 g · lista para el horno.\n\nEtiquetá a con quién la compartirías.", "carousel": null}, {"id": "F11", "name": "Del mercado a tu mesa", "kind": "Carrusel", "file": "feed/11-del-mercado.jpg", "caption": "Elegimos en el mercado, cortamos a mano, horneamos y gratinamos.\nAsí se hacen las berenjenas a la parmesana.\n\nGuardalo si te dio hambre.", "carousel": "C11"}, {"id": "F12", "name": "¿Llegamos a tu casa?", "kind": "Foto", "file": "feed/12-entregas.jpg", "caption": "Entregamos miércoles, jueves y viernes desde las 18 h.\nEnvío gratis en Adrogué. También podés retirar.\nPagás con efectivo, transferencia o Mercado Pago.\n\nMandáselo a alguien de Adrogué.", "carousel": null}], "carruseles": [{"id": "C01", "name": "Así funciona", "slides": ["carruseles/1-asi-funciona/01.jpg", "carruseles/1-asi-funciona/02.jpg", "carruseles/1-asi-funciona/03.jpg", "carruseles/1-asi-funciona/04.jpg", "carruseles/1-asi-funciona/05.jpg"], "folder": "carruseles/1-asi-funciona", "zip": "carrusel-1-asi-funciona"}, {"id": "C02", "name": "La carta", "slides": ["carruseles/2-la-carta/01.jpg", "carruseles/2-la-carta/02.jpg", "carruseles/2-la-carta/03.jpg", "carruseles/2-la-carta/04.jpg", "carruseles/2-la-carta/05.jpg", "carruseles/2-la-carta/06.jpg"], "folder": "carruseles/2-la-carta", "zip": "carrusel-2-la-carta"}, {"id": "C03", "name": "Quién cocina", "slides": ["carruseles/3-quien-cocina/01.jpg", "carruseles/3-quien-cocina/02.jpg", "carruseles/3-quien-cocina/03.jpg", "carruseles/3-quien-cocina/04.jpg"], "folder": "carruseles/3-quien-cocina", "zip": "carrusel-3-quien-cocina"}, {"id": "C05", "name": "Cómo calentar tu vianda", "slides": ["carruseles/4-como-calentar/01.jpg", "carruseles/4-como-calentar/02.jpg", "carruseles/4-como-calentar/03.jpg", "carruseles/4-como-calentar/04.jpg", "carruseles/4-como-calentar/05.jpg"], "folder": "carruseles/4-como-calentar", "zip": "carrusel-4-como-calentar"}, {"id": "C11", "name": "Del mercado a tu mesa", "slides": ["carruseles/5-del-mercado/01.jpg", "carruseles/5-del-mercado/02.jpg", "carruseles/5-del-mercado/03.jpg", "carruseles/5-del-mercado/04.jpg", "carruseles/5-del-mercado/05.jpg"], "folder": "carruseles/5-del-mercado", "zip": "carrusel-5-del-mercado"}], "reels": [{"name": "La carta", "file": "reels/fiore-reel-la-carta.mp4", "silent": "reels/sin-musica/fiore-reel-la-carta-sin-musica.mp4", "poster": "thumbs/reels/la-carta.jpg"}, {"name": "Quién cocina", "file": "reels/fiore-reel-quien-cocina.mp4", "silent": "reels/sin-musica/fiore-reel-quien-cocina-sin-musica.mp4", "poster": "thumbs/reels/quien-cocina.jpg"}, {"name": "Del freezer al horno", "file": "reels/fiore-reel-freezer-al-horno.mp4", "silent": "reels/sin-musica/fiore-reel-freezer-al-horno-sin-musica.mp4", "poster": "thumbs/reels/freezer-al-horno.jpg"}, {"name": "Cómo pedir", "file": "reels/fiore-reel-como-pedir.mp4", "silent": "reels/sin-musica/fiore-reel-como-pedir-sin-musica.mp4", "poster": "thumbs/reels/como-pedir.jpg"}], "historias": [{"name": "Pedidos abiertos", "file": "historias/01-pedidos-abiertos.jpg"}, {"name": "Producción del día", "file": "historias/02-produccion.jpg"}, {"name": "Hoy reparto", "file": "historias/03-hoy-reparto.jpg"}, {"name": "Encuesta", "file": "historias/04-encuesta.jpg"}, {"name": "Mercado + preguntas", "file": "historias/05-mercado.jpg"}, {"name": "Saliendo a repartir", "file": "historias/06-reparto.jpg"}], "destacadas": [{"name": "Menú", "stories": ["destacadas/1-menu/01.jpg", "destacadas/1-menu/02.jpg", "destacadas/1-menu/03.jpg", "destacadas/1-menu/04.jpg", "destacadas/1-menu/05.jpg", "destacadas/1-menu/06.jpg"], "cover": "destacadas/portadas/1-menu.jpg", "folder": "destacadas/1-menu", "zip": "destacada-1-menu"}, {"name": "Cómo pedir", "stories": ["destacadas/2-como-pedir/01.jpg", "destacadas/2-como-pedir/02.jpg", "destacadas/2-como-pedir/03.jpg", "destacadas/2-como-pedir/04.jpg"], "cover": "destacadas/portadas/2-como-pedir.jpg", "folder": "destacadas/2-como-pedir", "zip": "destacada-2-como-pedir"}, {"name": "Zonas", "stories": ["destacadas/3-zonas/01.jpg", "destacadas/3-zonas/02.jpg"], "cover": "destacadas/portadas/3-zonas.jpg", "folder": "destacadas/3-zonas", "zip": "destacada-3-zonas"}, {"name": "Reseñas", "stories": ["destacadas/4-resenas/01.jpg", "destacadas/4-resenas/02.jpg", "destacadas/4-resenas/03.jpg"], "cover": "destacadas/portadas/4-resenas.jpg", "folder": "destacadas/4-resenas", "zip": "destacada-4-resenas"}, {"name": "Cocina", "stories": ["destacadas/5-cocina/01.jpg", "destacadas/5-cocina/02.jpg", "destacadas/5-cocina/03.jpg", "destacadas/5-cocina/04.jpg"], "cover": "destacadas/portadas/5-cocina.jpg", "folder": "destacadas/5-cocina", "zip": "destacada-5-cocina"}], "portadas": [], "marca": [{"name": "Guía de marca", "file": "marca/guia-de-marca.jpg"}, {"name": "Vista del perfil", "file": "marca/vista-del-perfil.jpg"}], "zips": {"fiore-feed": {"label": "Feed", "files": ["feed/01-asi-funciona.jpg", "feed/02-la-carta.jpg", "feed/03-quien-cocina.jpg", "feed/04-pastel-de-papa.jpg", "feed/05-como-calentar.jpg", "feed/06-berenjenas.jpg", "feed/07-berenjenas-al-horno.jpg", "feed/08-resenas.jpg", "feed/09-detalle.jpg", "feed/10-lasana.jpg", "feed/11-del-mercado.jpg", "feed/12-entregas.jpg"], "mb": 3.6}, "fiore-carruseles": {"label": "Carruseles", "files": ["carruseles/1-asi-funciona/01.jpg", "carruseles/1-asi-funciona/02.jpg", "carruseles/1-asi-funciona/03.jpg", "carruseles/1-asi-funciona/04.jpg", "carruseles/1-asi-funciona/05.jpg", "carruseles/2-la-carta/01.jpg", "carruseles/2-la-carta/02.jpg", "carruseles/2-la-carta/03.jpg", "carruseles/2-la-carta/04.jpg", "carruseles/2-la-carta/05.jpg", "carruseles/2-la-carta/06.jpg", "carruseles/3-quien-cocina/01.jpg", "carruseles/3-quien-cocina/02.jpg", "carruseles/3-quien-cocina/03.jpg", "carruseles/3-quien-cocina/04.jpg", "carruseles/4-como-calentar/01.jpg", "carruseles/4-como-calentar/02.jpg", "carruseles/4-como-calentar/03.jpg", "carruseles/4-como-calentar/04.jpg", "carruseles/4-como-calentar/05.jpg", "carruseles/5-del-mercado/01.jpg", "carruseles/5-del-mercado/02.jpg", "carruseles/5-del-mercado/03.jpg", "carruseles/5-del-mercado/04.jpg", "carruseles/5-del-mercado/05.jpg"], "mb": 6.6}, "fiore-reels": {"label": "Reels con música", "files": ["reels/fiore-reel-como-pedir.mp4", "reels/fiore-reel-freezer-al-horno.mp4", "reels/fiore-reel-la-carta.mp4", "reels/fiore-reel-quien-cocina.mp4"], "mb": 14.7}, "fiore-historias": {"label": "Historias", "files": ["historias/01-pedidos-abiertos.jpg", "historias/02-produccion.jpg", "historias/03-hoy-reparto.jpg", "historias/04-encuesta.jpg", "historias/05-mercado.jpg", "historias/06-reparto.jpg"], "mb": 2.8}, "fiore-destacadas": {"label": "Destacadas", "files": ["destacadas/1-menu/01.jpg", "destacadas/1-menu/02.jpg", "destacadas/1-menu/03.jpg", "destacadas/1-menu/04.jpg", "destacadas/1-menu/05.jpg", "destacadas/1-menu/06.jpg", "destacadas/2-como-pedir/01.jpg", "destacadas/2-como-pedir/02.jpg", "destacadas/2-como-pedir/03.jpg", "destacadas/2-como-pedir/04.jpg", "destacadas/3-zonas/01.jpg", "destacadas/3-zonas/02.jpg", "destacadas/4-resenas/01.jpg", "destacadas/4-resenas/02.jpg", "destacadas/4-resenas/03.jpg", "destacadas/5-cocina/01.jpg", "destacadas/5-cocina/02.jpg", "destacadas/5-cocina/03.jpg", "destacadas/5-cocina/04.jpg", "destacadas/portadas/1-menu.jpg", "destacadas/portadas/2-como-pedir.jpg", "destacadas/portadas/3-zonas.jpg", "destacadas/portadas/4-resenas.jpg", "destacadas/portadas/5-cocina.jpg"], "mb": 6.4}, "fiore-marca": {"label": "Marca", "files": ["marca/guia-de-marca.jpg", "marca/vista-del-perfil.jpg"], "mb": 1.1}, "carrusel-1-asi-funciona": {"label": "Así funciona", "files": ["carruseles/1-asi-funciona/01.jpg", "carruseles/1-asi-funciona/02.jpg", "carruseles/1-asi-funciona/03.jpg", "carruseles/1-asi-funciona/04.jpg", "carruseles/1-asi-funciona/05.jpg"], "mb": 0.8}, "carrusel-2-la-carta": {"label": "La carta", "files": ["carruseles/2-la-carta/01.jpg", "carruseles/2-la-carta/02.jpg", "carruseles/2-la-carta/03.jpg", "carruseles/2-la-carta/04.jpg", "carruseles/2-la-carta/05.jpg", "carruseles/2-la-carta/06.jpg"], "mb": 2.0}, "carrusel-3-quien-cocina": {"label": "Quién cocina", "files": ["carruseles/3-quien-cocina/01.jpg", "carruseles/3-quien-cocina/02.jpg", "carruseles/3-quien-cocina/03.jpg", "carruseles/3-quien-cocina/04.jpg"], "mb": 1.2}, "carrusel-4-como-calentar": {"label": "Cómo calentar tu vianda", "files": ["carruseles/4-como-calentar/01.jpg", "carruseles/4-como-calentar/02.jpg", "carruseles/4-como-calentar/03.jpg", "carruseles/4-como-calentar/04.jpg", "carruseles/4-como-calentar/05.jpg"], "mb": 0.6}, "carrusel-5-del-mercado": {"label": "Del mercado a tu mesa", "files": ["carruseles/5-del-mercado/01.jpg", "carruseles/5-del-mercado/02.jpg", "carruseles/5-del-mercado/03.jpg", "carruseles/5-del-mercado/04.jpg", "carruseles/5-del-mercado/05.jpg"], "mb": 2.0}, "destacada-1-menu": {"label": "Menú", "files": ["destacadas/1-menu/01.jpg", "destacadas/1-menu/02.jpg", "destacadas/1-menu/03.jpg", "destacadas/1-menu/04.jpg", "destacadas/1-menu/05.jpg", "destacadas/1-menu/06.jpg", "destacadas/portadas/1-menu.jpg"], "mb": 2.4}, "destacada-2-como-pedir": {"label": "Cómo pedir", "files": ["destacadas/2-como-pedir/01.jpg", "destacadas/2-como-pedir/02.jpg", "destacadas/2-como-pedir/03.jpg", "destacadas/2-como-pedir/04.jpg", "destacadas/portadas/2-como-pedir.jpg"], "mb": 0.6}, "destacada-3-zonas": {"label": "Zonas", "files": ["destacadas/3-zonas/01.jpg", "destacadas/3-zonas/02.jpg", "destacadas/portadas/3-zonas.jpg"], "mb": 0.3}, "destacada-4-resenas": {"label": "Reseñas", "files": ["destacadas/4-resenas/01.jpg", "destacadas/4-resenas/02.jpg", "destacadas/4-resenas/03.jpg", "destacadas/portadas/4-resenas.jpg"], "mb": 0.6}, "destacada-5-cocina": {"label": "Cocina", "files": ["destacadas/5-cocina/01.jpg", "destacadas/5-cocina/02.jpg", "destacadas/5-cocina/03.jpg", "destacadas/5-cocina/04.jpg", "destacadas/portadas/5-cocina.jpg"], "mb": 2.5}}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DL = '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4 7l4 4 4-4M2 14h12"/></svg>';
+const base = f => f.split("/").pop();
+const FMAP={carruseles:"files%202/",destacadas:"files%203/",reels:"files%204/"};
+const F=p=>(FMAP[p.split("/")[0]]||"files/")+p;
+const link = (file, label, cls) => `<a class="${cls || "btn btn-line"}" href="${F(file)}" download="${esc(base(file))}" data-dl>${DL}${label}</a>`;
+
+// por sección
+$("#bulk").innerHTML = ["fiore-feed","fiore-carruseles","fiore-reels","fiore-historias","fiore-destacadas","fiore-marca"].map(k => { const z = DATA.zips[k]; return `<button class="zip" type="button" data-set="${k}">${esc(z.label)} <small>${z.mb} MB</small></button>`; }).join("");
+document.querySelectorAll(".sec-h [data-set]").forEach(b => { const z = DATA.zips[b.dataset.set]; b.innerHTML = DL + b.textContent + ` <span style="opacity:.8;font-weight:600">· ${z.mb} MB</span>`; });
+
+$("#feed-grid").innerHTML = DATA.feed.map((p, i) => `
+  <article class="card">
+    <img src="thumbs/${p.file}" alt="${esc(p.name)}" loading="lazy">
+    <div class="card-b">
+      <span class="kind">${String(i+1).padStart(2,"0")} · ${esc(p.kind)}</span>
+      <h3>${esc(p.name)}</h3>
+      <details class="cap"><summary>Texto del posteo</summary><p id="cap-${i}">${esc(p.caption)}</p></details>
+      <div class="row">${link(p.file, "Imagen")}<button class="btn btn-line" type="button" data-copy="cap-${i}">Copiar texto</button>${p.carousel ? `<a class="btn btn-line" href="#car-${p.carousel}">Ver carrusel</a>` : ""}</div>
+    </div>
+  </article>`).join("");
+
+$("#car-list").innerHTML = DATA.carruseles.map(c => `
+  <div class="car" id="car-${c.id}">
+    <div class="car-h"><div><h3>${esc(c.name)}</h3><span>${c.slides.length} placas</span></div><button class="btn btn-teal" type="button" data-set="${c.zip}">${DL}Descargar carrusel</button></div>
+    <div class="strip">${c.slides.map((s, j) => `<div class="slide"><img src="thumbs/${s}" alt="${esc(c.name)}, placa ${j+1}" loading="lazy"><a href="${F(s)}" download="${esc(c.name)} ${j+1}.jpg" data-dl>${DL}Placa ${j+1}</a></div>`).join("")}</div>
+  </div>`).join("");
+
+$("#reel-grid").innerHTML = DATA.reels.map(r => `
+  <article class="reel">
+    <video src="${F(r.file)}" poster="${r.poster}" controls playsinline preload="none" aria-label="Reel ${esc(r.name)}"></video>
+    <div class="card-b"><h3>${esc(r.name)}</h3><div class="row">${link(r.file, "Con música", "btn btn-teal")}${link(r.silent, "Sin música")}</div></div>
+  </article>`).join("");
+
+$("#his-grid").innerHTML = DATA.historias.map(h => `
+  <article class="card story"><img src="thumbs/${h.file}" alt="${esc(h.name)}" loading="lazy"><div class="card-b"><h3>${esc(h.name)}</h3><div class="row">${link(h.file, "Imagen")}</div></div></article>`).join("");
+
+$("#dest-list").innerHTML = DATA.destacadas.map(d => `
+  <div class="car">
+    <div class="car-h"><div class="cover-row"><img src="thumbs/${d.cover}" alt=""><div><h3>${esc(d.name)}</h3><span>${d.stories.length} historias + portada</span></div></div>
+      <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">${link(d.cover, "Portada")}<button class="btn btn-teal" type="button" data-set="${d.zip}">${DL}Descargar destacada</button></div></div>
+    <div class="strip">${d.stories.map((s, j) => `<div class="slide story"><img src="thumbs/${s}" alt="${esc(d.name)}, historia ${j+1}" loading="lazy"><a href="${F(s)}" download="${esc(d.name)} ${j+1}.jpg" data-dl>${DL}Historia ${j+1}</a></div>`).join("")}</div>
+  </div>`).join("");
+
+$("#marca-grid").innerHTML = DATA.marca.map(m => `
+  <article class="card"><img src="${m.thumb || "thumbs/" + m.file}" alt="${esc(m.name)}" loading="lazy" style="aspect-ratio:${m.thumb ? "16/10" : "auto"};max-height:520px;object-fit:cover;object-position:top"><div class="card-b"><h3>${esc(m.name)}</h3><div class="row">${link(m.file, m.btn || "Imagen", m.btn ? "btn btn-teal" : "")}${m.thumb ? `<a class="btn btn-line" href="${F(m.file)}" target="_blank" rel="noopener">Ver online</a>` : ""}</div></div></article>`).join("");
+
+function toast(msg){ const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2400); }
+
+// Descargas: dentro de Claude usa el permiso de descargas; fuera (GitHub, local) el link normal funciona solo.
+let downloads = null;
+if (window.claude && window.claude.use) window.claude.use("downloads").then(d => { downloads = d; }).catch(() => {});
+async function saveBlob(filename, blob){
+  if (downloads) { await downloads.save({ filename, data: blob }); return; }
+  const u = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000);
+}
+let busy = false;
+async function buildZip(key, btn){
+  if (busy) return toast("Ya estoy armando otra descarga");
+  const z = DATA.zips[key]; if (!z || !window.JSZip) return toast("No se pudo preparar el ZIP");
+  busy = true; const label = btn.innerHTML; btn.disabled = true;
+  try {
+    const zip = new JSZip(); const root = zip.folder("Fiore");
+    let i = 0;
+    for (const f of z.files) { i++; btn.textContent = `Preparando ${i}/${z.files.length}…`; const r = await fetch(F(f)); if (!r.ok) throw new Error("fetch"); root.file(f, await r.blob(), { binary: true }); }
+    btn.textContent = "Comprimiendo…";
+    const blob = await zip.generateAsync({ type: "blob", compression: "STORE" });
+    btn.innerHTML = label; btn.disabled = false;
+    await saveBlob(key + ".zip", blob); toast("Descarga lista");
+  } catch (err) {
+    btn.innerHTML = label; btn.disabled = false;
+    if (err && err.code === "declined") return;
+    if (err && err.code === "rate_limited") return toast("Hay otra descarga esperando confirmación");
+    toast("No se pudo descargar. Probá de nuevo.");
+  } finally { busy = false; }
+}
+document.addEventListener("click", async e => {
+  const zb = e.target.closest("[data-set]");
+  if (zb) { buildZip(zb.dataset.set, zb); return; }
+  const a = e.target.closest("a[data-dl]");
+  if (a && downloads) {
+    e.preventDefault();
+    try {
+      const res = await fetch(a.getAttribute("href"));
+      if (!res.ok) throw new Error("fetch");
+      const blob = await res.blob();
+      await downloads.save({ filename: a.getAttribute("download") || base(a.getAttribute("href")), data: blob });
+      toast("Descarga lista");
+    } catch (err) {
+      if (err && err.code === "declined") return;
+      if (err && err.code === "rate_limited") return toast("Hay otra descarga esperando confirmación");
+      toast("No se pudo descargar. Probá de nuevo.");
+    }
+    return;
+  }
+  const c = e.target.closest("[data-copy]");
+  if (c) {
+    const txt = document.getElementById(c.dataset.copy).textContent;
+    const fallback = () => { const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); toast("Copiado"); } catch(_) { toast("Seleccioná el texto y copialo"); } ta.remove(); };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast("Copiado"), fallback); else fallback();
+  }
+});
+</script>
+
+</body>
+</html>
